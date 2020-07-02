@@ -9,3 +9,20 @@ header {
 main {
     margin-left: 200px;
 }
+
+.App__nav {
+    height: 100%; 
+    width: 160px; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0;
+    background-color: rgb(223, 223, 223); 
+    overflow-x: hidden; 
+    padding-top: 20px;
+}
+
+li {
+    list-style: none;
+    padding-bottom: 10px;;
+}

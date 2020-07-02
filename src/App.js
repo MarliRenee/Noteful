@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Link} from 'react-router-dom';
 import NoteListNav from './NoteListNav/NoteListNav';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NoteListMain from './NoteListMain/NoteListMain';
@@ -84,21 +84,23 @@ class App extends Component {
                         return <NotePageMain {...routeProps} note={note} />;
                     }}
                 />
-            </>
+            </> 
         );
     }
 
     render() {
         return (
-            <div className="App">
-                <nav className="App__nav">{this.renderNavRoutes()}</nav>
-                <header className="App__header">
-                    <h1>
-                        <Link to="/">Noteful</Link>{' '}
-                    </h1>
-                </header>
-                <main className="App__main">{this.renderMainRoutes()}</main>
-            </div>
+            <BrowserRouter>
+              <div className="App">
+                  <nav className="App__nav">{this.renderNavRoutes()}</nav>
+                  <header className="App__header">
+                      <h1>
+                          <Link to="/">Noteful</Link>{' '}
+                      </h1>
+                  </header>
+                  <main className="App__main">{this.renderMainRoutes()}</main>
+              </div>
+            </BrowserRouter> 
         );
     }
 }
