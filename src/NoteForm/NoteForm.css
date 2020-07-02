@@ -1,0 +1,15 @@
+.NoteDisplay {
+margin-right: 50px;
+padding: 10px 25px 25px;
+display: block;
+border: 1px solid lightgray;
+}
+
+.NoteBody {
+    display: flex;
+}
+
+button {
+ float: right;
+ margin-left: 100px;
+}
