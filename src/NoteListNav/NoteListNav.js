@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import AddButton from '../AddButton/AddButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CircleButton from '../CircleButton/CircleButton'
 import { countNotesForFolder } from '../notes-helpers'
 import './NoteListNav.css'
 
@@ -23,14 +24,16 @@ export default function NoteListNav(props) {
         )}
       </ul>
       <div className='NoteListNav__button-wrapper'>
-        <AddButton
+        <CircleButton
           tag={Link}
           to='/add-folder'
           type='button'
           className='NoteListNav__add-folder-button'
         >
-          Add Folder
-        </AddButton>
+          <FontAwesomeIcon icon='plus' />
+          <br />
+          Folder
+        </CircleButton>
       </div>
     </div>
   )

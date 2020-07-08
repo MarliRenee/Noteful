@@ -1,0 +1,35 @@
+
+.App {
+  font: helvetica;
+  display: grid;
+  grid-template-areas: "sidebar header" "sidebar main";
+  grid-template-columns: 1fr 2.3fr;
+  grid-template-rows: 120px 1fr;
+  min-height: 100vh;
+}
+
+.App__nav {
+  background-color: #cfcfcf;
+  color: #fff;
+  grid-area: sidebar;
+  height: 100vh;
+  overflow: auto;
+}
+
+.App__header {
+  color: #bdbdbd;
+  font-family: var(--custom-font);
+  grid-area: header;
+  padding-left: 16px;
+  padding-top: 32px;
+}
+
+.App__header a {
+  color: #bdbdbd;
+}
+
+.App__main {
+  grid-area: main;
+  height: calc(100vh - 120px);
+  overflow: auto;
+}
