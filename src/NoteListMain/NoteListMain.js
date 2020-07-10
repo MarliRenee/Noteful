@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Note from '../Note/Note'
-import CircleButton from '../CircleButton/CircleButton'
+import AddButton from '../AddButton/AddButton'
 import './NoteListMain.css'
 
 export default function NoteListMain(props) {
@@ -20,16 +19,14 @@ export default function NoteListMain(props) {
         )}
       </ul>
       <div className='NoteListMain__button-container'>
-        <CircleButton
+        <AddButton
           tag={Link}
           to='/add-note'
           type='button'
           className='NoteListMain__add-note-button'
         >
-          <FontAwesomeIcon icon='plus' />
-          <br />
-          Note
-        </CircleButton>
+          Add Note
+        </AddButton>
       </div>
     </section>
   )

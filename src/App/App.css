@@ -25,11 +25,15 @@
 }
 
 .App__header a {
-  color: #bdbdbd;
+  color: #FFB72F;;
 }
 
 .App__main {
   grid-area: main;
   height: calc(100vh - 120px);
   overflow: auto;
+}
+
+a {
+  color: black;
 }

@@ -1,22 +1,24 @@
 
-.NavCircleButton {
-  background-color: #cacaca;
+.AddButton {
+  background-color: #727272;
   border: 0;
-  color: black;
+  color: white;
   display: block;
   font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
   font-weight: bold;
   height: 60px;
   padding: 8px;
   text-align: center;
   text-decoration: none;
-  width: 60px;
+  width: 70px;
 }
 
-a.NavCircleButton {
+a.AddButton {
   padding: 16px 8px 8px;
 }
 
-.NavCircleButton:hover {
+.AddButton:hover {
   cursor: pointer;
 }
