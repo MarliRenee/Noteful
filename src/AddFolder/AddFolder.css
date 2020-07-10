@@ -1,0 +1,23 @@
+.AddFolder {
+    margin-left: 20px;
+}
+
+.AddFolder__buttons {
+    margin-top: 30px;
+    display: flex;
+    color: white;
+    
+}
+
+#cancel_button {
+    margin-right: 20px;
+    color: white;
+    background-color: #727272;
+    cursor: pointer;
+}
+
+#submit_button {
+    color: white;
+    background-color: #727272;
+    cursor: pointer;
+}

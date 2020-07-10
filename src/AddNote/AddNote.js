@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
+import './AddNote.css'
 
 export default class AddNote extends Component {
   static defaultProps = {
@@ -72,7 +73,7 @@ export default class AddNote extends Component {
             </select>
           </div>
           <div className='buttons'>
-            <button type='submit'>
+            <button id="submit_button" type='submit'>
               Add note
             </button>
           </div>

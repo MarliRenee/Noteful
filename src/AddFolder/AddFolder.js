@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import NotefulForm from '../NotefulForm/NotefulForm';
 import ApiContext from '../ApiContext';
 import config from '../config';
+import './AddFolder.css'
 
 export default class AddFolder extends Component {
 
@@ -56,11 +57,11 @@ export default class AddFolder extends Component {
                 </div>
             
                 <div className='AddFolder__buttons'>
-                    <button type='button' onClick={this.handleClickCancel}>
+                    <button id='cancel_button' type='button' onClick={this.handleClickCancel}>
                     Cancel
                     </button>
                     {' '}
-                    <button type='submit'>
+                    <button type='submit' id='submit_button'>
                     Save
                     </button>
                 </div>

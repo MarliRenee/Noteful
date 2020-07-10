@@ -1,21 +1,18 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CircleButton from '../AddButton/AddButton'
+import AddButton from '../AddButton/AddButton'
 import './NotePageNav.css'
 
 export default function NotePageNav(props) {
   return (
     <div className='NotePageNav'>
-      <CircleButton
+      <AddButton
         tag='button'
         role='link'
         onClick={() => props.history.goBack()}
         className='NotePageNav__back-button'
       >
-        <FontAwesomeIcon icon='chevron-left' />
-        <br />
         Back
-      </CircleButton>
+      </AddButton>
       {props.folder && (
         <h3 className='NotePageNav__folder-name'>
           {props.folder.name}

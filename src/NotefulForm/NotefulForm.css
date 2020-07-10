@@ -1,8 +1,11 @@
 .Noteful-form {
-  background-color: #1d3656;
-  color: #dedede;
-  padding: 16px;
-  max-width: 332px;
+  --note-height: 88px;
+  height: var(--note-height);
+  margin-bottom: 8px;
+  max-width: 380px;
+  padding: 8px 0 8px 8px;
+  margin-left: 20px;
+  position: relative;
 }
 
 .Noteful-form label {
