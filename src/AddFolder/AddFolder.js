@@ -1,27 +1,38 @@
 import React, { Component } from  'react';
-import PropTypes from 'prop-types';
 import NotefulForm from '../NotefulForm/NotefulForm';
 import ApiContext from '../ApiContext';
+import ValidationError from '../ValidationError';
 import config from '../config';
 import './AddFolder.css'
 
 export default class AddFolder extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      folderName: {
+        value: '',
+        touched: false
+      }
+    };  
+  }
+  
+  // static defaultProps = {
+  //     history: {
+  //     push: () => { }
+  //     },
+  // }
+  static contextType = ApiContext;
 
-    static defaultProps = {
-        history: {
-        push: () => { }
-        },
-    }
-    static contextType = ApiContext;
+  updateFolderName(folderName) {
+    this.setState({folderName: { value: folderName, touched: true} });
+  }
 
   handleSubmit = e => {
     e.preventDefault()
-    const folder = {
-      name: e.target['folderName'].value,
-    }
+    const { folderName } = this.state; 
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
-      body: JSON.stringify(folder),
+      body: JSON.stringify(folderName),
       headers: {
         'content-type': 'application/json',
       }
@@ -38,22 +49,35 @@ export default class AddFolder extends Component {
     .catch(error => {
         console.error({ error })
     })
+    console.log("Name: ", folderName.value);
   }
 
   handleClickCancel = () => {
     this.props.history.push('/')
   };
 
+  validateFolderName() {
+    const folderName = this.state.folderName.value.trim();
+    if (folderName.length === 0) {
+      return '* A folder name is required';
+    } else if (folderName.length < 3) {
+      return 'The folder name must be at least 3 characters long';
+    }
+  } 
+
   render() {
+    const nameError = this.validateFolderName();
+
     return (
         <section className='AddFolder'>
             <h2>Add a Folder</h2>
-            <NotefulForm onSubmit={this.handleSubmit}>
+            <NotefulForm onSubmit={e => this.handleSubmit(e)}>
                 <div className='field'>
                     <label htmlFor='folder-name-input'>
                     Name
                     </label>
                     <input type='text' id='folder-name-input' name='folderName' />
+                    {this.state.folderName.touched && <ValidationError message={nameError} />}
                 </div>
             
                 <div className='AddFolder__buttons'>
