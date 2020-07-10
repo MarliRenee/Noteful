@@ -49,7 +49,7 @@ export default class AddFolder extends Component {
     .catch(error => {
         console.error({ error })
     })
-    console.log("Name: ", folderName.value);
+    console.log("Folder name: ", folderName.value);
   }
 
   handleClickCancel = () => {
@@ -66,26 +66,42 @@ export default class AddFolder extends Component {
   } 
 
   render() {
-    const nameError = this.validateFolderName();
+    const folderNameError = this.validateFolderName();
 
     return (
         <section className='AddFolder'>
             <h2>Add a Folder</h2>
             <NotefulForm onSubmit={e => this.handleSubmit(e)}>
                 <div className='field'>
-                    <label htmlFor='folder-name-input'>
+                    <label htmlFor='folderName'>
                     Name
                     </label>
-                    <input type='text' id='folder-name-input' name='folderName' />
-                    {this.state.folderName.touched && <ValidationError message={nameError} />}
+                    <input 
+                      type='text' 
+                      id='folderName' 
+                      name='folderName'
+                      onChange={e => this.updateFolderName(e.target.value)}    
+                    />
+                    {this.state.folderName.touched && (
+                      <ValidationError message={folderNameError} />
+                    )}
                 </div>
             
                 <div className='AddFolder__buttons'>
-                    <button id='cancel_button' type='button' onClick={this.handleClickCancel}>
+                    <button 
+                      id='cancel_button' 
+                      type='button' 
+                      onClick={this.handleClickCancel}>
                     Cancel
                     </button>
                     {' '}
-                    <button type='submit' id='submit_button'>
+                    <button 
+                      type='submit' 
+                      id='save_button'
+                      disabled={
+                        this.validateFolderName()
+                      }
+                    >
                     Save
                     </button>
                 </div>

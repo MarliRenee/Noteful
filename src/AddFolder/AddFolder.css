@@ -16,8 +16,12 @@
     cursor: pointer;
 }
 
-#submit_button {
+#save_button {
     color: white;
     background-color: #727272;
     cursor: pointer;
+}
+
+#save_button:disabled {
+    background-color: #cfcfcf;
 }

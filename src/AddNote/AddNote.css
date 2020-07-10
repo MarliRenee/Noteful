@@ -1,9 +1,11 @@
-#submit_button {
-    color: white;
-    background-color: #727272;
-    cursor: pointer
-}
-
 .AddNote {
     margin-left: 20px;
+}
+
+.AddNote_buttons {
+    display: flex;
+}
+
+#save_button:disabled {
+    background-color: #cfcfcf;
 }
