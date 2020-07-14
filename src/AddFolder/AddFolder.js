@@ -16,11 +16,11 @@ export default class AddFolder extends Component {
     };  
   }
   
-  // static defaultProps = {
-  //     history: {
-  //     push: () => { }
-  //     },
-  // }
+  static defaultProps = {
+      history: {
+      push: () => { }
+      },
+  }
   static contextType = ApiContext;
 
   updateFolderName(folderName) {
@@ -29,10 +29,11 @@ export default class AddFolder extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    const { folderName } = this.state; 
+    const { folderName } = this.state;
+    const newFolder = { name: folderName.value } 
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
-      body: JSON.stringify(folderName),
+      body: JSON.stringify(newFolder),
       headers: {
         'content-type': 'application/json',
       }

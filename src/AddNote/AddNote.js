@@ -49,11 +49,7 @@ export default class AddNote extends Component {
     const { noteName } = this.state;
     const { noteContent } = this.state;
     const { noteFolder } = this.state;
-    //   name: e.target['noteName'].value,
-    //   content: e.target['note-content'].value,
-    //   folderId: e.target['note-folder-id'].value,
-    //   modified: new Date(),
-    // }
+   
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
@@ -157,7 +153,7 @@ export default class AddNote extends Component {
               <option value={null}>...</option>
               {folders.map(folder =>
                 <option key={folder.id} value={folder.id}>
-                  {folder.name}
+                  {folder.name} 
                 </option>
               )}
             </select>
