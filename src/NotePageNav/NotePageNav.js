@@ -1,5 +1,6 @@
 import React from 'react'
 import AddButton from '../AddButton/AddButton'
+import PropType from 'prop-types'
 import './NotePageNav.css'
 
 export default function NotePageNav(props) {
@@ -27,3 +28,8 @@ NotePageNav.defaultProps = {
     goBack: () => {}
   }
 }
+
+NotePageNav.propTypes = {
+  history: PropType.object.isRequired,
+  folder: PropType.object.isRequired,
+};

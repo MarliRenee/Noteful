@@ -3,6 +3,7 @@ import NotefulForm from '../NotefulForm/NotefulForm';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError';
 import config from '../config';
+import PropTypes from 'prop-types';
 import './AddFolder.css'
 
 export default class AddFolder extends Component {
@@ -111,3 +112,8 @@ export default class AddFolder extends Component {
     );
   }
 }
+
+AddFolder.propTypes = {
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
+};

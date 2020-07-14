@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Note from '../Note/Note'
 import ApiContext from '../ApiContext';
-import AddButton from '../AddButton/AddButton'
-import './NoteListMain.css'
+import AddButton from '../AddButton/AddButton';
+import PropTypes from 'prop-types';
+import './NoteListMain.css';
 
 export default class NoteListMain extends React.Component {
 

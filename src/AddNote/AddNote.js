@@ -3,6 +3,7 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import ValidationError from '../ValidationError';
 import config from '../config'
+import PropType from 'prop-types'
 import './AddNote.css'
 
 export default class AddNote extends Component {
@@ -25,11 +26,11 @@ export default class AddNote extends Component {
     };  
   }
 
-  // static defaultProps = {
-  //   history: {
-  //     push: () => { }
-  //   },
-  // }
+  static defaultProps = {
+    history: {
+      push: () => { }
+    },
+  }
   static contextType = ApiContext;
 
   updateNoteName(noteName) {
@@ -191,3 +192,7 @@ export default class AddNote extends Component {
     );
   }
 }
+
+AddNote.propTypes = {
+  history: PropType.object.isRequired,
+};

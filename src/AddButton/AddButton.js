@@ -1,5 +1,6 @@
-import React from 'react'
-import './AddButton.css'
+import React from 'react';
+import './AddButton.css';
+import PropType from 'prop-types';
 
 export default function AddButton(props) {
   const { tag, className, childrenm, ...otherProps } = props
@@ -15,7 +16,7 @@ export default function AddButton(props) {
 }
 
 AddButton.propTypes = {
-  
+  tag: PropType.string.isRequired,
 }
 
 AddButton.defaultProps ={
