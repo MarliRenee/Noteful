@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 import './Note.css'
 
 export default function Note(props) {
+
   return (
     <div className='Note'>
       <h2 className='Note__title'>
@@ -17,3 +19,10 @@ export default function Note(props) {
     </div>
   )
 }
+
+
+Note.propTypes = {
+  name: PropTypes.string.isRequired,
+  
+};
+

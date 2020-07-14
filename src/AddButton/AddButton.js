@@ -14,6 +14,10 @@ export default function AddButton(props) {
   )
 }
 
+AddButton.propTypes = {
+  
+}
+
 AddButton.defaultProps ={
   tag: 'a',
 }

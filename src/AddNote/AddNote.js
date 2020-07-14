@@ -46,16 +46,19 @@ export default class AddNote extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    const { noteName } = this.state;
-    const { noteContent } = this.state;
-    const { noteFolder } = this.state;
+    const { noteName, noteContent, noteFolder } = this.state;
+    const newNote = {
+      name: noteName.value,
+      content: noteContent.value,
+      folderId: noteFolder.value,
+    }
    
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(noteName),
+      body: JSON.stringify(newNote),
     })
       .then(res => {
         if (!res.ok)
