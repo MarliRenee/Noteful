@@ -31,5 +31,6 @@ NotePageNav.defaultProps = {
 
 NotePageNav.propTypes = {
   history: PropType.object.isRequired,
-  folder: PropType.object.isRequired,
+  //**Causes Failed prop typ, it's value is underfined -- research more */
+  //folder: PropType.object.isRequired,
 };

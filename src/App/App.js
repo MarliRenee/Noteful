@@ -9,6 +9,7 @@ import AddNote from '../AddNote/AddNote';
 import ApiContext from '../ApiContext';
 import NotefulError from '../NotefulError';
 import config from '../config';
+import dummyStore from '../dummy-store';
 import './App.css';
 
 class App extends Component {
@@ -18,6 +19,9 @@ class App extends Component {
     };
   
     componentDidMount() {
+        // fake date loading from API call
+        setTimeout(() => this.setState(dummyStore), 600)
+
       Promise.all([
         fetch(`${config.API_ENDPOINT}/notes`),
         fetch(`${config.API_ENDPOINT}/folders`)

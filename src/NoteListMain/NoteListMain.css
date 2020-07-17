@@ -7,7 +7,8 @@
 
 .NoteListMain__button-container {
   max-width: 380px;
-  margin: 0 10px;
+  margin: 0 30px;
+  display: inline-block;
 }
 
 .NoteListMain__add-note-button {
