@@ -1,9 +1,6 @@
-import React, { Component } from 'react'
-import NotefulForm from '../NotefulForm/NotefulForm'
+import React from 'react'
 import ApiContext from '../ApiContext'
-import ValidationError from '../ValidationError';
 import config from '../config'
-import PropType from 'prop-types'
 import './AddNote.css'
 
 export default class AddNote extends React.Component {
