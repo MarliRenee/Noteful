@@ -6,193 +6,140 @@ import config from '../config'
 import PropType from 'prop-types'
 import './AddNote.css'
 
-export default class AddNote extends Component {
- 
-  constructor(props) {
-    super(props);
-    this.state = {
-      noteName: {
-        value: '',
-        touched: false
-      },
-      noteContent: {
-        value: '',
-        touched: false
-      },
-      noteFolder: {
-        value: '',
-        touched: false
-      }
-    };  
-  }
+export default class AddNote extends React.Component {
+  static contextType = ApiContext
+  addNewNote = note => {
+    
+    note.modified = new Date(note.modified);
 
-  static defaultProps = {
-    history: {
-      push: () => { }
-    },
-  }
-  static contextType = ApiContext;
-
-  updateNoteName(noteName) {
-    this.setState({noteName: { value: noteName, touched: true} });
-  }
-
-  updateNoteContent(noteContent) {
-    this.setState({noteContent: { value: noteContent, touched: true}});
-  }
-
-  updateNoteFolder(noteFolder) {
-    this.setState({noteFolder: { value: noteFolder, touched: true}});
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    const { noteName, noteContent, noteFolder } = this.state;
-    const newNote = {
-      name: noteName.value,
-      content: noteContent.value,
-      folderId: noteFolder.value,
-    }
-   
     fetch(`${config.API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newNote),
+      body: JSON.stringify(note),
     })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
+        console.log(JSON.stringify(note))
         return res.json()
       })
-      .then(note => {
-        this.context.addNote(note)
-        this.props.history.push(`/folder/${note.folderId}`)
-      })
-      .catch(error => {
-        console.error({ error })
-      })
-      console.log("Note name: ", noteName.value)
-      console.log("Note content: ", noteContent.value)
-      console.log("Note folder: ", noteFolder.value)
+      .then(resJSON => this.context.handleAddNote(resJSON))
+  }
+  parseFolders = () => {
+    return this.context.folders.map(folder => (
+      <option key={folder.id} name={folder.id} value={folder.id}>
+        {folder.name}
+      </option>
+    ))
   }
 
-  handleClickCancel = () => {
-    this.props.history.push('/')
-  };
-
-  validateNoteName() {
-    const noteName = this.state.noteName.value.trim();
-    if (noteName.length === 0) {
-      return '* A note name is required';
-    } else if (noteName.length < 3) {
-      return '* The note name must be at least 3 characters long';
+  handleFormSubmit = e => {
+    e.preventDefault(e)
+    const newNote = {
+      name: e.target.name.value,
+      content: e.target.content.value,
+      folder_id: e.target.folders.value,
+      modified: new Date(),
     }
-  } 
+    console.log(newNote);
+    this.addNewNote(newNote)
+    this.props.history.push('/');
+  }
 
-  validateNoteContent() {
-    const noteContent = this.state.noteContent.value.trim();
-    if (noteContent.length === 0) {
-      return '* Note content is required';
+  validateName = () => {
+    if (this.context.newNote.name.value.length === 0) {
+      return '*Name is required'
     }
   }
 
-  validateNoteFolder() {
-    const noteFolder = this.state.noteFolder.value.trim();
-    if (noteFolder.length === 0) {
-      return '* A folder selection is required'
+  validateDescription = () => {
+    if (this.context.newNote.content.value.length === 0) {
+      return '*Description is required'
     }
   }
 
   render() {
-    const noteNameError = this.validateNoteName();
-    const noteContentError = this.validateNoteContent();
-    const noteFolderError = this.validateNoteFolder();
-    const { folders=[] } = this.context
-    
+    console.log(this.context);
     return (
-      <section className='AddNote'>
-        <h2>Create a note</h2>
-        <NotefulForm onSubmit={e => this.handleSubmit(e)}>
-          
-          <div className='field'>
-            <label htmlFor='noteName'>
+      <div className="AddNote">
+        <header>
+          <h2 className="add-note-header">Add A New Note</h2>
+        </header>
+
+        <form
+          className="add-note-form"
+          onSubmit={e => this.handleFormSubmit(e)}
+          >
+
+          <div className="Name">
+            <label htmlFor="name">
               Name
+              {this.context.newNote.name.touched && <p>{this.validateName()}</p>}
             </label>
-            <input 
-              type='text' 
-              id='noteName' 
-              name='noteName' 
-              onChange={e => this.updateNoteName(e.target.value)}
-              />
-              {this.state.noteName.touched && (
-                <ValidationError message={noteNameError} />
-              )}
-          </div>
-         
-          <div className='field'>
-            <label htmlFor='noteContent'>
-              Content
-            </label>
-            <textarea 
-              id='noteContent' 
-              name='noteContent'
-              onChange={e => this.updateNoteContent(e.target.value)} 
+            <input
+              type="text"
+              name="name"
+              id="name"
+              aria-required="true"
+              aria-label="Name"
+              onChange={e =>
+                this.context.updateNewNoteData(e.target.name, e.target.value)
+              }
             />
-            {this.state.noteContent.touched && (
-              <ValidationError message={noteContentError} />
-            )}
           </div>
-          
-          <div className='field'>
-            <label htmlFor='noteFolder'>
-              Folder
-            </label>
-            <select 
-              id='noteFolder' 
-              name='noteFolder'
-              onChange={e => this.updateNoteFolder(e.target.value)} 
-              >
-              <option value={null}>...</option>
-              {folders.map(folder =>
-                <option key={folder.id} value={folder.id}>
-                  {folder.name} 
-                </option>
+
+          <div className="Content">
+            <label htmlFor="content">
+              Description
+              {this.context.newNote.content.touched && (
+                <p>{this.validateDescription()}</p>
               )}
-            </select>
-            {this.state.noteFolder.touched && (
-              <ValidationError message={noteFolderError} />
-            )}
+            </label>
+            <textarea
+              type="text"
+              name="content"
+              id="content"
+              aria-required="true"
+              aria-label="Description"
+              onChange={e =>
+                this.context.updateNewNoteData(e.target.name, e.target.value)
+              }
+            />
           </div>
-          
+
+          <div className="Folders">
+            <label htmlFor="folders">Select a Folder</label>
+            <select
+              name="folders"
+              id="folders"
+              aria-required="true"
+              aria-label="Select a folder"
+            >
+              {this.parseFolders()}
+            </select>
+          </div>
+
           <div className='AddNote_buttons'>
             <button 
-              id='cancel_button' 
-              type='button' 
-              onClick={this.handleClickCancel}
-            >
-            Cancel
+                id='cancel_button' 
+                type='button' 
+                onClick={this.handleClickCancel}
+              >
+              Cancel
             </button>
-            {' '}
             <button
               id="save_button" 
               type='submit'
-              disabled={
-                this.validateNoteName() ||
-                this.validateNoteContent() ||
-                this.validateNoteFolder()
+              disabled={() =>
+                this.validateName() ||
+                this.validateDescription()
               }
             >
               Add note
             </button>
           </div>
-        </NotefulForm>
-      </section>
-    );
+        </form>
+      </div>
+    )
   }
 }
-
-AddNote.propTypes = {
-  history: PropType.object.isRequired,
-};

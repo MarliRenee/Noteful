@@ -19,6 +19,8 @@ export default class NoteListMain extends React.Component {
     const { folderId } = this.props.match.params
     const { notes=[] } = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
+    console.log(notesForFolder + 'TEST' );
+
     return (
       <section className='NoteListMain'>
         <div className='NoteListMain__button-container'>
@@ -29,7 +31,7 @@ export default class NoteListMain extends React.Component {
             className='NoteListMain__add-note-button'
           >
             <br />
-            Note
+            Add Note
           </AddButton>
         </div>
         <ul>

@@ -1,5 +1,18 @@
 .AddNote {
     margin-left: 20px;
+    display: block;
+}
+
+.Name {
+    padding-bottom: 10px;
+}
+
+.Content {
+    padding-bottom: 10px;
+}
+
+.Folders{
+    padding-bottom: 10px;
 }
 
 .AddNote_buttons {

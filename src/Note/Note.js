@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './Note.css'
@@ -36,6 +36,8 @@ export default class Note extends React.Component {
   render() {
     console.log(this.context.deleteNote);
     const { name, id, modified } = this.props
+    console.log(modified);
+
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -51,13 +53,14 @@ export default class Note extends React.Component {
           {' '}
           delete
         </button>
-        <div className='Note__dates'>
-          <div className='Note__dates-modified'>
-            Modified
-            {' '}
-            <span className='Date'>
-              {format(modified, 'Do MMM YYYY')}
-            </span>
+        
+          <div className = 'noteDate'>
+            <div className = 'modifiedDate'>
+                Modified 
+                {' '}
+                <span className = 'Date'>
+                    {modified}
+                </span>
           </div>
         </div>
       </div>
