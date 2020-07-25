@@ -25,7 +25,8 @@ class App extends Component {
         touched: false,
         value: '',
       },
-      folder_id: {
+      //folder_id
+      folderId: {
         touched: false,
         value: '',
       },

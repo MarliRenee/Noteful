@@ -5,6 +5,7 @@ import './AddNote.css'
 
 export default class AddNote extends React.Component {
   static contextType = ApiContext
+
   addNewNote = note => {
     
     note.modified = new Date(note.modified);
@@ -35,7 +36,7 @@ export default class AddNote extends React.Component {
     const newNote = {
       name: e.target.name.value,
       content: e.target.content.value,
-      folder_id: e.target.folders.value,
+      folderId: e.target.folders.value,
       modified: new Date(),
     }
     console.log(newNote);
@@ -56,6 +57,7 @@ export default class AddNote extends React.Component {
   }
 
   render() {
+  
     console.log(this.context);
     return (
       <div className="AddNote">
@@ -127,10 +129,6 @@ export default class AddNote extends React.Component {
             <button
               id="save_button" 
               type='submit'
-              disabled={() =>
-                this.validateName() ||
-                this.validateDescription()
-              }
             >
               Add note
             </button>

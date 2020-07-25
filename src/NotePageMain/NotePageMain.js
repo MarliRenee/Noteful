@@ -28,6 +28,7 @@ export default class NotePageMain extends React.Component {
           name={note.name}
           modified={note.modified}
           onDeleteNote={this.handleDeleteNote}
+
         />
         <div className='NotePageMain__content'>
           {note.content.split(/\n \r|\n/).map((para, i) =>
