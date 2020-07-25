@@ -1,12 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './Note.css'
 import { format, parseISO } from 'date-fns'
 import PropTypes from 'prop-types'
 
-export default class Note extends React.Component {
+class Note extends React.Component {
+  
+  static defaultProps = { 
+    history: { goBack: () => {}, }, 
+  };
 
   static contextType = ApiContext;
 
@@ -26,7 +30,9 @@ export default class Note extends React.Component {
           return res.json().then(e => Promise.reject(e))
       })
       .then(() => {
-          this.context.deleteNote(noteId)
+          this.context.deleteNote(noteId);
+          this.props.history.push("/");
+          //this.props.history.goBack();
       })
       .catch(error => {
         console.error({ error })
@@ -68,6 +74,7 @@ export default class Note extends React.Component {
   }
 }
 
+export default withRouter(Note);
 
 Note.propTypes = {
   onDeleteNote: PropTypes.func,
@@ -75,3 +82,4 @@ Note.propTypes = {
   name: PropTypes.string,
   modified: PropTypes.string
 }
+

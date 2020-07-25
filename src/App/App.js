@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, useHistory } from 'react-router-dom'
 import NoteListNav from '../NoteListNav/NoteListNav'
 import NotePageNav from '../NotePageNav/NotePageNav'
 import NoteListMain from '../NoteListMain/NoteListMain'
@@ -25,7 +25,6 @@ class App extends Component {
         touched: false,
         value: '',
       },
-      //folder_id
       folderId: {
         touched: false,
         value: '',
@@ -95,8 +94,7 @@ class App extends Component {
     console.log('Firing!')
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId),
-    })
-
+    });
   }
 
   renderNavRoutes() {
