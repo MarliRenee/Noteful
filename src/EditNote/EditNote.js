@@ -14,6 +14,7 @@ export default class EditNote extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `${process.env.API_TOKEN}`
       },
       body: JSON.stringify(note),
     })

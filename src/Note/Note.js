@@ -21,7 +21,8 @@ class Note extends React.Component {
     fetch(`${config.API_ENDPOINT}api/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'Authorization': `${process.env.API_TOKEN}`
       },
     })
       .then(res => {

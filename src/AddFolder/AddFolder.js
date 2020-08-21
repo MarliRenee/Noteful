@@ -37,6 +37,7 @@ export default class AddFolder extends Component {
       body: JSON.stringify(newFolder),
       headers: {
         'content-type': 'application/json',
+        'Authorization': `${process.env.API_TOKEN}`
       }
     })
     .then(res => {
