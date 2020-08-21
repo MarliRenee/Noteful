@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './Note.css'
-import { format, parseISO } from 'date-fns'
 import PropTypes from 'prop-types'
 
 class Note extends React.Component {
@@ -19,7 +18,7 @@ class Note extends React.Component {
     const noteId = this.props.id
     console.log(noteId)
 
-    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+    fetch(`${config.API_ENDPOINT}api/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
@@ -51,14 +50,18 @@ class Note extends React.Component {
             {name}
           </Link>
         </h2>
+        
         <button
           className='Note__delete'
           type='button'
           onClick={this.handleClickDelete}
         >
           {' '}
-          delete
+          Delete
         </button>
+        <Link to={`/edit/${id}`}>
+              Edit Bookmark
+        </Link>
         
           <div className = 'noteDate'>
             <div className = 'modifiedDate'>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Link, useHistory } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import NoteListNav from '../NoteListNav/NoteListNav'
 import NotePageNav from '../NotePageNav/NotePageNav'
 import NoteListMain from '../NoteListMain/NoteListMain'
@@ -9,6 +9,7 @@ import config from '../config'
 import './App.css'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
+import EditNote from '../EditNote/EditNote'
 import NotefulError from '../NotefulError'
 
 class App extends Component {
@@ -38,8 +39,8 @@ class App extends Component {
 
   componentDidMount() {
     Promise.all([
-      fetch(`${config.API_ENDPOINT}/notes`),
-      fetch(`${config.API_ENDPOINT}/folders`),
+      fetch(`${config.API_ENDPOINT}api/notes`),
+      fetch(`${config.API_ENDPOINT}api/folders`),
     ])
       .then(([notesRes, foldersRes]) => {
         if (!notesRes.ok) return notesRes.json().then(e => Promise.reject(e))
@@ -97,13 +98,15 @@ class App extends Component {
     });
   }
 
+  updateNote = () => {};
+
   renderNavRoutes() {
     return (
       <>
         <Route path="/note/:noteId" component={NotePageNav} />
         <Route path="/add-folder" component={NotePageNav} />
         <Route path="/add-note" component={NotePageNav} />
-        {['/', '/folder/:folderId'].map(path => (
+        {['/', 'api/folder/:folderId'].map(path => (
           <Route exact key={path} path={path} component={NoteListNav} />
         ))}
       </>
@@ -116,7 +119,8 @@ class App extends Component {
         <Route path="/note/:noteId" component={NotePageMain} />
         <Route path="/add-folder" component={AddFolder} />
         <Route path="/add-note" component={AddNote} />
-        {['/', '/folder/:folderId'].map(path => (
+        <Route path='/edit/:noteId' component={EditNote}/>
+        {['/', 'api/folder/:folderId'].map(path => (
           <Route exact key={path} path={path} component={NoteListMain} />
         ))}
       </>
@@ -129,6 +133,7 @@ class App extends Component {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
+      updateNote: this.updateNote,
       addFolder: this.handleAddFolder,
       newFolder: this.state.newFolder,
       updateNewFolderName: this.updateNewFolderName,
