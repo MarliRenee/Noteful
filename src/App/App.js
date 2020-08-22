@@ -11,6 +11,7 @@ import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
 import EditNote from '../EditNote/EditNote'
 import NotefulError from '../NotefulError'
+require('dotenv').config();
 
 class App extends Component {
   state = {
@@ -38,18 +39,18 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_API_TOKEN)
+    console.log(process.env.NODE_ENV)
     Promise.all([
       fetch(`${config.API_ENDPOINT}api/notes`, {
         method: 'GET',
-        //body: JSON.stringify(note),
         headers: {
           'content-type': 'application/json',
           'Authorization': `${process.env.API_TOKEN}`
         }
-      }),
+      }), 
       fetch(`${config.API_ENDPOINT}api/folders`, {
         method: 'GET',
-        //body: JSON.stringify(newFolder),
         headers: {
           'content-type': 'application/json',
           'Authorization': `${process.env.API_TOKEN}`
@@ -142,7 +143,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
