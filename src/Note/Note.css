@@ -7,7 +7,6 @@
   max-width: 380px;
   padding: 8px 0 8px 8px;
   margin-left: 20px;
-  position: relative;
 }
 
 .Note__delete {
@@ -33,7 +32,7 @@
 
 .Note__title {
   font-family: var(--custom-font);
-  font-size: 20px;
+  font-size: 14px;
   margin: 0;
   max-width: 80%;
   min-height: 24px;
@@ -50,6 +49,6 @@
 .Note__dates {
   bottom: 8px;
   color: #a7a5a5;
-  font-size: 14px;
-  position: absolute;
+  font-size: 12px;
+  position: relative;
 }

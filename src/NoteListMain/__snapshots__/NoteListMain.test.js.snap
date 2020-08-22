@@ -16,7 +16,7 @@ exports[`NoteListMain component renders a .NoteListMain by default 1`] = `
     >
       <br />
       Note
-    </AddButton>
+    </Button>
   </div>
 </section>
 `;

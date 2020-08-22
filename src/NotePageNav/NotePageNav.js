@@ -1,36 +1,52 @@
-import React from 'react'
-import AddButton from '../AddButton/AddButton'
-import PropType from 'prop-types'
-import './NotePageNav.css'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function NotePageNav(props) {
-  return (
-    <div className='NotePageNav'>
-      <AddButton
-        tag='button'
-        role='link'
-        onClick={() => props.history.goBack()}
-        className='NotePageNav__back-button'
-      >
-        Back
-      </AddButton>
-      {props.folder && (
-        <h3 className='NotePageNav__folder-name'>
-          {props.folder.name}
-        </h3>
-      )}
-    </div>
-  )
-}
+import './NotePageNav.css';
 
-NotePageNav.defaultProps = {
-  history: {
-    goBack: () => {}
+import { findNote, findFolder } from '../notes-helpers';
+import Button from '../Button/Button';
+import NotefulContext from '../NotefulContext';
+
+export default class NotePageNav extends React.Component {
+  static defaultProps = {
+    history: {
+      goBack: () => {}
+    },
+    match: {
+      params: {}
+    }
   }
+
+  static contextType = NotefulContext;
+
+  render () {
+    const { notes, folders } = this.context
+    const { noteId } = this.props.match.params
+    const note = findNote( notes, noteId ) || {}
+    const folder = findFolder( folders, note.folderId)
+    
+    return (
+      <div className='NotePageNav'>
+        <Button
+          tag='button'
+          role='link'
+          onClick={() => this.props.history.goBack()}
+          className='NotePageNav__back-button'
+        >
+          <br />
+          Back
+        </Button>
+        {folder && (
+          <h3 className='NotePageNav__folder-name'>
+            {folder.name}
+          </h3>
+        )}
+      </div>
+    )
+  }
+
 }
 
-NotePageNav.propTypes = {
-  history: PropType.object.isRequired,
-  //**Causes Failed prop typ, it's value is underfined -- research more */
-  //folder: PropType.object.isRequired,
+NotePageNav.propType = {
+  push: PropTypes.func.isRequired
 };

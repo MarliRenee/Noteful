@@ -10,7 +10,7 @@ export default class EditNote extends React.Component {
     
     note.modified = new Date(note.modified);
 
-    fetch(`${config.API_ENDPOINT}api/notes`, {
+    fetch(`${config.API_ENDPOINT}api/api/notesotes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,6 @@ export default class EditNote extends React.Component {
       body: JSON.stringify(note),
     })
       .then(res => {
-        console.log(JSON.stringify(note))
         return res.json()
       })
       .then(resJSON => this.context.handleEditNote(resJSON))
@@ -35,14 +34,37 @@ export default class EditNote extends React.Component {
 
   handleFormSubmit = e => {
     e.preventDefault(e)
+    const { noteId } = this.props.match.params
+    const { name, content, folderId } = this.state;
     const editNote = {
-      name: e.target.name.value,
+      name: e.name.title.value,
       content: e.target.content.value,
       folderId: e.target.folders.value,
       modified: new Date(),
     }
-    console.log(editNote);
-    this.editNote(editNote)
+
+    fetch(config.API_ENDPOINT + `/${noteId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(editNote),
+      headers: {
+        'content-type': 'application/json',
+        //'authorization': `Bearer ${config.API_KEY}`
+      },
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(error => Promise.reject(error))
+      })
+      .then(() => {
+        this.resetFields(editNote)
+        this.context.updateNote(editNote)
+        this.props.history.push('/')
+      })
+      .catch(error => {
+        console.error(error)
+        this.setState({ error })
+      })
+
     this.props.history.push('/');
   }
 
@@ -59,8 +81,7 @@ export default class EditNote extends React.Component {
   }
 
   render() {
-  
-    console.log(this.context);
+
     return (
       <div className="EditNote">
         <header>

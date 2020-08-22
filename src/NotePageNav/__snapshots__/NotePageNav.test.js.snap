@@ -4,7 +4,7 @@ exports[`NotePageNav component renders a .NotePageNav by default 1`] = `
 <div
   className="NotePageNav"
 >
-  <NavCircleButton
+  <NavButton
     className="NotePageNav__back-button"
     onClick={[Function]}
     role="link"
@@ -30,7 +30,7 @@ exports[`NotePageNav component renders a .NotePageNav by default 1`] = `
     />
     <br />
     Back
-  </NavCircleButton>
+  </NavButton>
 </div>
 `;
 

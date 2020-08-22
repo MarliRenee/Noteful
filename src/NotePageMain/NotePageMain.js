@@ -1,26 +1,43 @@
 import React from 'react'
-import Note from '../Note/Note'
-import ApiContext from '../ApiContext'
-import { findNote } from '../notes-helpers'
+import PropTypes from 'prop-types';
+
 import './NotePageMain.css'
-import PropTypes from 'prop-types'
+
+import NotefulContext from '../NotefulContext'
+import Note from '../Note/Note'
+import { findNote } from '../notes-helpers'
 
 export default class NotePageMain extends React.Component {
+  state = {
+    forErrors: this.props.match,
+    toggle: true
+  }
+
   static defaultProps = {
     match: {
       params: {}
     }
   }
-  static contextType = ApiContext
 
+  static contextType = NotefulContext;
   handleDeleteNote = noteId => {
-    this.props.history.push(`/`)
+    this.props.history.push('/')
   }
+    
 
-  render() {
+  render () {
     const { notes=[] } = this.context
-    const { noteId } = this.props.match.params
-    const note = findNote(notes, noteId) || { content: '' }
+    const { noteId } = this.state.forErrors.params
+    const note = findNote(notes, noteId) || { content: ''}
+      if(this.state.toggle === false) {
+        this.setState({
+          forErrors: 'err'
+        })
+        this.setState({
+          forErrors: this.props.match
+        })
+      }
+
     return (
       <section className='NotePageMain'>
         <Note
@@ -28,7 +45,6 @@ export default class NotePageMain extends React.Component {
           name={note.name}
           modified={note.modified}
           onDeleteNote={this.handleDeleteNote}
-
         />
         <div className='NotePageMain__content'>
           {note.content.split(/\n \r|\n/).map((para, i) =>
@@ -36,11 +52,19 @@ export default class NotePageMain extends React.Component {
           )}
         </div>
       </section>
-    )
+    )    
+  }
+
+}
+
+NotePageMain.defaultProps = {
+  note: {
+    content: '',
   }
 }
 
-NotePageMain.propTypes = {
-  history: PropTypes.object,
-  match: PropTypes.object
-}
+NotePageMain.propType = {
+  forErrors: PropTypes.object.isRequired,
+    push: PropTypes.func.isRequired,
+    params: PropTypes.array.isRequired
+};  

@@ -1,154 +1,192 @@
-import React from 'react'
-import ApiContext from '../ApiContext'
-import config from '../config'
-import './AddNote.css'
+import React from 'react';
+import NotefulContext from '../NotefulContext';
+import config from '../config';
+//import './NotefulForm/NotefulForm.css';
 
 export default class AddNote extends React.Component {
-  static contextType = ApiContext
+    state = {
+        title: "",
+        content: "",
+        folderSelect: "",
+        folderId: "",
+        formValid: false,
+        titleValid: false,
+        contentValid: false,
+        folderSelectValid: false,
+        validationMessage: null
+    };
 
-  addNewNote = note => {
-    
-    note.modified = new Date(note.modified);
+    static contextType = NotefulContext;
 
-    fetch(`${config.API_ENDPOINT}api/notes`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${process.env.API_TOKEN}`
-      },
-      body: JSON.stringify(note),
-    })
-      .then(res => {
-        console.log(JSON.stringify(note))
-        return res.json()
-      })
-      .then(resJSON => this.context.handleAddNote(resJSON))
-  }
-  parseFolders = () => {
-    return this.context.folders.map(folder => (
-      <option key={folder.id} name={folder.id} value={folder.id}>
-        {folder.name}
-      </option>
-    ))
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const { title, content, folderId } = this.state;
-    const note = {
-        name: title,
-        content: content,
-        folderid: folderId,
-        modified: new Date()
+    goBack = () => {
+        this.props.history.goBack();
     }
 
-    this.setState({error: null})
-    
-    fetch(`${config.API_ENDPOINT}/notes`, {
-        method: 'POST',
-        body: JSON.stringify(note),
-        headers: {
-            'content-type': 'application/json',
-            'Authorization': `${process.env.API_TOKEN}`
-        }
-    })
-    .then(res => {
-        if (!res.ok) {
-            return res.json().then(err => {
-                console.log(`Error is: ${err}`)
-                throw err
+    updateFormEntry(e) {       
+        const name = e.target.name;
+        const value = e.target.value;
+        let id;
+        if (e.target.selectedOptions) {
+            id = e.target.selectedOptions[0].id;
+            this.setState({
+                'folderId': id 
             })
         }
-        return res.json()
-    })
-    .then(data => {
-        this.goBack()
-        this.context.addNote(data)
-    })
-    .catch(err => {
-        this.setState({ err })
-    })
-  }
+        this.setState({
+            [e.target.name]: e.target.value,
+            
+        }, () => {this.validateEntry(name, value)});
+    }
 
-  render() {
-  
-    console.log(this.context);
-    return (
-      <div className="AddNote">
-        <header>
-          <h2 className="add-note-header">Add A New Note</h2>
-        </header>
+    validateEntry(name, value) {
+        let hasErrors = false;
 
-        <form
-          className="add-note-form"
-          onSubmit={e => this.handleFormSubmit(e)}
-          >
+        value = value.trim();
+        if((name === 'title') || (name === 'content')) {
+            if (value.length < 1) {
+                hasErrors = true
+            } 
 
-          <div className="Name">
-            <label htmlFor="name">
-              Name
-              {this.context.newNote.name.touched && <p>{this.validateName()}</p>}
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              aria-required="true"
-              aria-label="Name"
-              onChange={e =>
-                this.context.updateNewNoteData(e.target.name, e.target.value)
-              }
-            />
-          </div>
+            else {
+                hasErrors = false
+            }
+        }
+        
+        else if((name === 'folderSelect') && (value === 'Select')) {
+            hasErrors = true
+        }
+        
+        else {
+            hasErrors = false
+        }
+        
+        this.setState({
+            [`${name}Valid`]: !hasErrors,
+        }, this.formValid );
+    }
 
-          <div className="Content">
-            <label htmlFor="content">
-              Description
-              {this.context.newNote.content.touched && (
-                <p>{this.validateDescription()}</p>
-              )}
-            </label>
-            <textarea
-              type="text"
-              name="content"
-              id="content"
-              aria-required="true"
-              aria-label="Description"
-              onChange={e =>
-                this.context.updateNewNoteData(e.target.name, e.target.value)
-              }
-            />
-          </div>
+    formValid() {
+        const { titleValid, contentValid, folderSelectValid } = this.state;
+        if (titleValid && contentValid && folderSelectValid === true){
+            this.setState({
+                formValid: true,
+                validationMessage: null
+            });
+        }
+        else {this.setState({
+            formValid: !this.formValid,
+            validationMessage: 'All fields are required.'
+        })}
+      }
 
-          <div className="Folders">
-            <label htmlFor="folders">Select a Folder</label>
-            <select
-              name="folders"
-              id="folders"
-              aria-required="true"
-              aria-label="Select a folder"
-            >
-              {this.parseFolders()}
-            </select>
-          </div>
+    handleSubmit(e) {
+        e.preventDefault();
+        const { title, content, folderId } = this.state;
+        const note = {
+            name: title,
+            content: content,
+            folderid: folderId,
+            modified: new Date()
+        }
 
-          <div className='AddNote_buttons'>
-            <button 
-                id='cancel_button' 
-                type='button' 
-                onClick={this.handleClickCancel}
-              >
-              Cancel
-            </button>
-            <button
-              id="save_button" 
-              type='submit'
-            >
-              Add note
-            </button>
-          </div>
-        </form>
-      </div>
-    )
-  }
+        this.setState({error: null})
+
+        
+        fetch(`${config.API_ENDPOINT}/api/notes`, {
+            method: 'POST',
+            body: JSON.stringify(note),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(err => {
+                    console.log(`Error is: ${err}`)
+                    throw err
+                })
+            }
+            return res.json()
+        })
+        .then(data => {
+            this.goBack()
+            this.context.addNote(data)
+        })
+        .catch(err => {
+            this.setState({ err })
+        })
+    }
+
+    
+    render() {
+        const folders = this.context.folders;
+        const options = folders.map((folder) => {
+            return(
+            <option 
+                key ={folder.id} 
+                id={folder.id}>
+            {folder.name}
+            </option>
+            )
+        })
+        
+        return (
+            <form 
+                className="Noteful-form"
+                onSubmit={e => this.handleSubmit(e)}>
+                <h2 className="title">Add Note</h2>
+                <div className="form-group">
+                  <label htmlFor="title">Title</label>
+                  <input 
+                    type="text" 
+                    className="field"
+                    name="title" 
+                    id="title" 
+                    aria-label="Title"
+                    aria-required="true"
+                    placeholder="Note Title"
+                    onChange={e => this.updateFormEntry(e)}/>
+                </div>
+                <div className="form-group">
+                   <label htmlFor="content">Note:</label>
+                   <textarea 
+                        className="field"
+                        name="content" 
+                        id="content"
+                        aria-label="Note:"
+                        aria-required="false"
+                        onChange={e => this.updateFormEntry(e)}/>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="folder-select">folder</label>
+                  <select 
+                    type="text" 
+                    className="field"
+                    name="folderSelect" 
+                    id="folder-select" 
+                    aria-label="folder"
+                    aria-required="true"
+                    ref={this.folderSelect}
+                    onChange={e => this.updateFormEntry(e)}>
+                        <option>Select</option>
+                        { options }
+                    </select>
+                </div>
+                <div className="buttons">
+                 <button 
+                    type="button" 
+                    className="button"
+                    onClick={()=> this.goBack()}>
+                     Cancel
+                 </button>
+                 <button 
+                    type="submit" 
+                    className="button"
+                    disabled={!this.state.formValid}>
+                     Save
+                 </button>
+                </div>
+            </form> 
+        )
+    }
 }

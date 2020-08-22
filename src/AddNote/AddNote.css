@@ -1,24 +1,7 @@
 .AddNote {
-    margin-left: 20px;
-    display: block;
+    color: #dedede;
 }
-
-.Name {
-    padding-bottom: 10px;
-}
-
-.Content {
-    padding-bottom: 10px;
-}
-
-.Folders{
-    padding-bottom: 10px;
-}
-
-.AddNote_buttons {
-    display: flex;
-}
-
-#save_button:disabled {
-    background-color: #cfcfcf;
+  
+.AddNote h2 {
+    margin-left: 16px;
 }
