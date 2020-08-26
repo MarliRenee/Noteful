@@ -52,7 +52,6 @@ export default class AddFolder extends Component {
     .catch(error => {
         console.error({ error })
     })
-    console.log("Folder name: ", folderName.value);
   }
 
   handleClickCancel = () => {

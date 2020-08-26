@@ -9,8 +9,7 @@ import AddFolder from "../AddFolder/AddFolder";
 import AddNote from "../AddNote/AddNote";
 import ErrorBoundary from "../ErrorHandlers/ErrorBoundary";
 import "./App.css";
-import Config from '../config'
-const API = Config.API_ENDPOINT;
+import config from '../config'
 
 class App extends React.Component {
   constructor(props) {
@@ -44,7 +43,10 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    Promise.all([fetch(`${API}/api/notes`), fetch(`${API}/api/folders`)])
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/api/notes`), 
+      fetch(`${config.API_ENDPOINT}/api/folders`)
+    ])
       .then(([notesRes, foldersRes]) => {
         if (!notesRes.ok) return notesRes.json().then(e => Promise.reject(e));
         if (!foldersRes.ok)

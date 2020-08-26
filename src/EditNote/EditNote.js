@@ -10,10 +10,11 @@ export default class EditNote extends React.Component {
     
     note.modified = new Date(note.modified);
 
-    fetch(`${config.API_ENDPOINT}api/api/notesotes`, {
+    fetch(`${config.API_ENDPOINT}/api/notes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `${process.env.API_TOKEN}`
       },
       body: JSON.stringify(note),
     })
@@ -47,6 +48,7 @@ export default class EditNote extends React.Component {
       body: JSON.stringify(editNote),
       headers: {
         'content-type': 'application/json',
+        'Authorization': `${process.env.API_TOKEN}`
       },
     })
       .then(res => {
