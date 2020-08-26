@@ -40,7 +40,7 @@ export default class NoteListMain extends Component {
           <Button
             tag={Link}
             to='/add-note'
-            type='butto'
+            type='button'
             className='NoteListMain__add-note-button'>
             <br />
             Add Note
