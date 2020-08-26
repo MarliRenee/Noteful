@@ -1,48 +1,48 @@
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import ApiContext from '../ApiContext'
-import config from '../config'
+import { Link } from 'react-router-dom'
+//import { format } from 'date-fns'
+import PropTypes from 'prop-types';
+
 import './Note.css'
-import PropTypes from 'prop-types'
 
-class Note extends React.Component {
-  
-  static defaultProps = { 
-    history: { goBack: () => {}, }, 
-  };
+import NotefulContext from '../NotefulContext'
+import config from '../config'
 
-  static contextType = ApiContext;
 
-  handleClickDelete = e => {
-    e.preventDefault()
+
+export default class Note extends React.Component {
+  static defaultProps = {
+    onDeleteNote: () => {},
+  }
+
+  static contextType = NotefulContext;
+
+  handleClickDelete = () => {
     const noteId = this.props.id
-    console.log(noteId)
 
-    fetch(`${config.API_ENDPOINT}api/notes/${noteId}`, {
+
+    fetch(`${config.API_ENDPOINT}/api/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
-        'content-type': 'application/json',
-        'Authorization': `${process.env.API_TOKEN}`
+        'content-Type': 'application/json'
       },
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-      })
-      .then(() => {
-          this.context.deleteNote(noteId);
-          this.props.history.push("/");
-          //this.props.history.goBack();
-      })
-      .catch(error => {
-        console.error({ error })
-      })
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(e => Promise.reject(e))
+      }
+    })
+    .then(() => {
+      this.context.deleteNote(noteId)
+      this.props.onDeleteNote(noteId)
+    })
+    .catch(err => {
+      console.log({ err })
+    })
   }
 
   render() {
-    console.log(this.context.deleteNote);
     const { name, id, modified } = this.props
-    console.log(modified);
 
     return (
       <div className='Note'>
@@ -51,39 +51,32 @@ class Note extends React.Component {
             {name}
           </Link>
         </h2>
-        
-        <button
-          className='Note__delete'
+        <button 
+          className='Note__delete' 
           type='button'
-          onClick={this.handleClickDelete}
-        >
+          onClick={ this.handleClickDelete }>
           {' '}
-          Delete
+          remove
         </button>
-        <Link to={`/edit/${id}`}>
-              Edit Bookmark
-        </Link>
-        
-          <div className = 'noteDate'>
-            <div className = 'modifiedDate'>
-                Modified 
-                {' '}
-                <span className = 'Date'>
-                    {modified}
-                </span>
+        <div className='Note__dates'>
+          <div className='Note__dates-modified'>
+            Modified
+            {/* {' '} */}
+            <span className='Date'>
+              {modified}
+              {/* FIX date format to Do Mo YYY */}
+             {/* {format(modified, 'd m yy')}  */}
+            </span>
           </div>
         </div>
-      </div>
+      </div>        
     )
   }
 }
 
-export default withRouter(Note);
-
-Note.propTypes = {
-  onDeleteNote: PropTypes.func,
-  id: PropTypes.string,
-  name: PropTypes.string,
+Note.propType = {
+  onDeleteNote: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   modified: PropTypes.string
-}
-
+};

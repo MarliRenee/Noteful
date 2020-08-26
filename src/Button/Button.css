@@ -1,5 +1,4 @@
-
-.AddButton {
+.NavButton {
   background-color: #727272;
   border: 0;
   color: white;
@@ -15,10 +14,10 @@
   width: 70px;
 }
 
-a.AddButton {
+a.NavButton {
   padding: 16px 8px 8px;
 }
 
-.AddButton:hover {
+.NavButton:hover {
   cursor: pointer;
 }

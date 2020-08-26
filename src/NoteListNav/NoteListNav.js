@@ -1,38 +1,39 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import AddButton from '../AddButton/AddButton'
-import ApiContext from '../ApiContext'
-import { countNotesForFolder } from '../notes-helpers'
+
 import './NoteListNav.css'
 
-export default class NoteListNav extends React.Component {
-  static contextType = ApiContext;
+import NotefulContext from '../NotefulContext'
+import Button from '../Button/Button'
+
+export default class NoteListNav extends Component {
+  static contextType = NotefulContext;
+
 
   render() {
-    const { folders=[], notes=[] } = this.context
+    const { folders=[] } = this.context
+
     return (
       <div className='NoteListNav'>
         <div className='NoteListNav__button-wrapper'>
-          <AddButton
-            tag={Link}
-            to='/add-folder'
-            type='button'
-            className='NoteListNav__add-folder-button'
-          >
-            <br />
-            Folder
-          </AddButton>
-        </div>
+            <Button
+              
+              tag={Link}
+              to='/add-folder'
+              type='button'
+              className='NoteListNav__add-folder-button'
+            >
+              Add Folder
+            </Button>
+          </div>
         <ul className='NoteListNav__list'>
           {folders.map(folder =>
             <li key={folder.id}>
               <NavLink
+                aria-controls="note__list"
                 className='NoteListNav__folder-link'
-                to={`api/folder/${folder.id}`}
+                to={`/folder/${folder.id}`}
               >
-                <span className='NoteListNav__num-notes'>
-                  {countNotesForFolder(notes, folder.id)}
-                </span>
                 {folder.name}
               </NavLink>
             </li>

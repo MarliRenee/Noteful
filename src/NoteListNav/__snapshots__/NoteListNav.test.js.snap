@@ -10,7 +10,7 @@ exports[`NoteListNav component renders a .NoteListNav by default 1`] = `
   <div
     className="NoteListNav__button-wrapper"
   >
-    <AddButton
+    <Button
       className="NoteListNav__add-folder-button"
       tag={[Function]}
       to="/add-folder"
@@ -18,7 +18,7 @@ exports[`NoteListNav component renders a .NoteListNav by default 1`] = `
     >
       <br />
       Folder
-    </AddButton>
+    </Button>
   </div>
 </div>
 `;

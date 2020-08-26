@@ -1,56 +1,59 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import Note from '../Note/Note'
-import AddButton from '../AddButton/AddButton'
-import ApiContext from '../ApiContext'
-import { getNotesForFolder } from '../notes-helpers'
-import './NoteListMain.css'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-export default class NoteListMain extends React.Component {
+import './NoteListMain.css'
+
+import NotefulContext from '../NotefulContext'
+import Note from '../Note/Note'
+import { getNotesForFolder } from '../notes-helpers'
+import Button from '../Button/Button'
+
+export default class NoteListMain extends Component {
   static defaultProps = {
     match: {
       params: {}
     }
   }
-  static contextType = ApiContext
+
+  static contextType = NotefulContext;
 
   render() {
     const { folderId } = this.props.match.params
     const { notes=[] } = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
-    console.log(notesForFolder + 'TEST' );
-
     return (
       <section className='NoteListMain'>
-        <div className='NoteListMain__button-container'>
-          <AddButton
-            tag={Link}
-            to='/add-note'
-            type='button'
-            className='NoteListMain__add-note-button'
-          >
-            <br />
-            Add Note
-          </AddButton>
-        </div>
-        <ul>
-          {notesForFolder.map(note =>
+        <ul id="note__list">
+          {notesForFolder.map(note => 
             <li key={note.id}>
               <Note
                 id={note.id}
                 name={note.name}
                 modified={note.modified}
-                onDeleteNote={this.onDeleteNote}
               />
+              
             </li>
           )}
         </ul>
+        <div className='NoteListMain__button-container'>
+          <Button
+            tag={Link}
+            to='/add-note'
+            type='button'
+            className='NoteListMain__add-note-button'>
+            <br />
+            Add Note
+          </Button>
+          
+        </div>
       </section>
     )
   }
+
 }
 
-NoteListMain.propTypes = {
-  match: PropTypes.object
-}
+
+NoteListMain.propType = {
+  match: PropTypes.object.isRequired
+};
