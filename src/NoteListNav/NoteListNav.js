@@ -15,6 +15,17 @@ export default class NoteListNav extends Component {
 
     return (
       <div className='NoteListNav'>
+        <div className='NoteListNav__button-wrapper'>
+            <Button
+              
+              tag={Link}
+              to='/add-folder'
+              type='button'
+              className='NoteListNav__add-folder-button'
+            >
+              Add Folder
+            </Button>
+          </div>
         <ul className='NoteListNav__list'>
           {folders.map(folder =>
             <li key={folder.id}>
@@ -28,18 +39,6 @@ export default class NoteListNav extends Component {
             </li>
           )}
         </ul>
-        <div className='NoteListNav__button-wrapper'>
-          <Button
-            
-            tag={Link}
-            to='/add-folder'
-            type='button'
-            className='NoteListNav__add-folder-button'
-          >
-            <br />
-            Folder
-          </Button>
-        </div>
       </div>
     )
   }

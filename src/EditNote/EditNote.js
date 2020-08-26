@@ -14,7 +14,6 @@ export default class EditNote extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${process.env.API_TOKEN}`
       },
       body: JSON.stringify(note),
     })
@@ -48,7 +47,6 @@ export default class EditNote extends React.Component {
       body: JSON.stringify(editNote),
       headers: {
         'content-type': 'application/json',
-        //'authorization': `Bearer ${config.API_KEY}`
       },
     })
       .then(res => {
