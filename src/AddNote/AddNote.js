@@ -97,7 +97,7 @@ export default class AddNote extends React.Component {
             body: JSON.stringify(note),
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `${process.env.API_TOKEN}`
+                //'Authorization': `${process.env.API_TOKEN}`
             }
         })
         .then(res => {

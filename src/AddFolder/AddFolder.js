@@ -32,12 +32,12 @@ export default class AddFolder extends Component {
     e.preventDefault()
     const { folderName } = this.state;
     const newFolder = { name: folderName.value } 
-    fetch(`${config.API_ENDPOINT}api/folders`, {
+    fetch(`${config.API_ENDPOINT}/api/folders`, {
       method: 'POST',
       body: JSON.stringify(newFolder),
       headers: {
         'content-type': 'application/json',
-        'Authorization': `${process.env.API_TOKEN}`
+        // 'Authorization': `${process.env.API_TOKEN}`
       }
     })
     .then(res => {
@@ -47,7 +47,8 @@ export default class AddFolder extends Component {
     })
     .then(folder => {
         this.context.addFolder(folder)
-        this.props.history.push(`api/folder/${folder.id}`)
+        this.props.history.push(`/`)
+        //(`api/folder/${folder.id}`)
     })
     .catch(error => {
         console.error({ error })
